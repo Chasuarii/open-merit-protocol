@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org",
+  "title": "BuilderConstraintQuery",
+  "type": "object",
+  "required": ["team_pubkey", "required_domains", "min_universal_traits", "compensation_model"],
+  "properties": {
+    "team_pubkey": { "type": "string" },
+    "problem_description": { "type": "string" },
+    "required_domains": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["cartridge_id", "min_elo"],
+        "properties": {
+          "cartridge_id": { "type": "string", "example": "robotics.control_loops.v1" },
+          "min_elo": { "type": "number", "example": 1750 }
+        }
+      }
+    },
+    "min_universal_traits": {
+      "type": "object",
+      "properties": {
+        "perturbation_recovery_pct": { "type": "number", "default": 80 },
+        "first_principles_efficiency": { "type": "number", "default": 75 }
+      }
+    },
+    "fallback_latent_aptitude": {
+      "type": "object",
+      "description": "Optional: auto-invite high-aptitude unverified users to take the Cartridge first.",
+      "additionalProperties": { "type": "number" }
+    },
+    "compensation_model": {
+      "type": "string",
+      "enum": ["bounty_per_milestone", "compute_and_equity_share", "direct_retainer"]
+    }
+  }
+}
