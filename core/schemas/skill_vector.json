@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org",
+  "title": "UniversalSkillVector",
+  "type": "object",
+  "required": ["builder_pubkey", "updated_at", "latent_aptitude", "verified_domains", "universal_traits", "signature"],
+  "properties": {
+    "builder_pubkey": {
+      "type": "string",
+      "description": "Ed25519 public key owned by the individual (no central identity gatekeeper)."
+    },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "latent_aptitude": {
+      "type": "object",
+      "description": "Normalized [0.0 - 1.0] scores inferred locally from browsing/work depth.",
+      "additionalProperties": { "type": "number", "minimum": 0, "maximum": 1 }
+    },
+    "verified_domains": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["cartridge_id", "elo_rating", "confidence_interval", "proof_hash"],
+        "properties": {
+          "cartridge_id": { "type": "string", "example": "robotics.control_loops.v1" },
+          "elo_rating": { "type": "number", "example": 1845 },
+          "confidence_interval": { "type": "number", "example": 32 },
+          "proof_hash": { "type": "string", "description": "SHA-256 hash of deterministic simulation telemetry." }
+        }
+      }
+    },
+    "universal_traits": {
+      "type": "object",
+      "properties": {
+        "perturbation_recovery_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "first_principles_efficiency": { "type": "number", "minimum": 0, "maximum": 100 },
+        "ai_leverage_multiplier": { "type": "number", "minimum": 0 },
+        "real_world_outcome_score": { "type": "number", "minimum": 0, "maximum": 100 }
+      }
+    },
+    "signature": { "type": "string", "description": "Cryptographic signature over canonical payload." }
+  }
+}

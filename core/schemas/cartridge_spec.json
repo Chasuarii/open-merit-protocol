@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org",
+  "$id": "https://open-merit-protocol.org",
+  "title": "Universal Domain Cartridge Specification",
+  "description": "Standardized interface for sandboxed, adversarial skill evaluation cartridges.",
+  "type": "object",
+  "required": [
+    "cartridge_id",
+    "version",
+    "domain",
+    "target_elo",
+    "sandbox",
+    "perturbation_schedule",
+    "scoring_contract"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "cartridge_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+\\.[a-z0-9_]+\\.v[0-9]+$",
+      "description": "Unique namespaced identifier, e.g., robotics.control.v1"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "domain": {
+      "type": "string",
+      "description": "Primary capability domain mapped to skill_vector keys"
+    },
+    "target_elo": {
+      "type": "integer",
+      "minimum": 800,
+      "maximum": 3000,
+      "description": "Baseline difficulty rating for the cartridge"
+    },
+    "sandbox": {
+      "type": "object",
+      "required": ["entrypoint", "network_disabled", "timeout_sec", "memory_limit_mb"],
+      "additionalProperties": false,
+      "properties": {
+        "dockerfile": {
+          "type": "string",
+          "default": "Dockerfile"
+        },
+        "entrypoint": {
+          "type": "string",
+          "default": "evaluator.py"
+        },
+        "network_disabled": {
+          "type": "boolean",
+          "const": true,
+          "description": "Sandboxes must run completely offline to prevent external cheating"
+        },
+        "timeout_sec": {
+          "type": "integer",
+          "minimum": 10,
+          "maximum": 7200
+        },
+        "memory_limit_mb": {
+          "type": "integer",
+          "minimum": 128,
+          "maximum": 16384
+        }
+      }
+    },
+    "perturbation_schedule": {
+      "type": "object",
+      "required": ["file", "min_stages", "adaptive_elo_scaling"],
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "type": "string",
+          "default": "perturbations.json"
+        },
+        "min_stages": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "adaptive_elo_scaling": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "scoring_contract": {
+      "type": "object",
+      "required": ["deterministic", "output_fields"],
+      "additionalProperties": false,
+      "properties": {
+        "deterministic": {
+          "type": "boolean",
+          "const": true
+        },
+        "output_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "contains": {
+            "const": "composite_score"
+          },
+          "minItems": 2
+        }
+      }
+    }
+  }
+}

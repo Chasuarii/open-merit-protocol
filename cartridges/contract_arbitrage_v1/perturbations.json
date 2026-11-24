@@ -1,0 +1,34 @@
+{
+  "cartridge_id": "risk.contract_arbitrage.v1",
+  "target_elo": 1800,
+  "initial_state": {
+    "role": "Lead Risk Architect for an independent 6-person robotics & compute micro-team",
+    "counterparty": "Legacy Cloud & Industrial Tier-1 Supplier",
+    "draft_clauses": [
+      {
+        "id": "C1_IP_LICENSE",
+        "text": "Supplier receives a perpetual, irrevocable, royalty-free license to any telemetry, firmware weights, or optimization derivatives generated while running on Supplier hardware."
+      },
+      {
+        "id": "C2_INDEMNITY_ASYMMETRY",
+        "text": "Client shall indemnify Supplier against all third-party regulatory claims arising from Client's use of the hardware, capped at unlimited liability, while Supplier's total liability is capped at 1 month of fees."
+      },
+      {
+        "id": "C3_AUTO_RENEWAL_LOCK",
+        "text": "Agreement auto-renews for 36-month terms unless written notice is delivered via certified mail strictly between 120 and 115 days prior to expiration."
+      }
+    ]
+  },
+  "adversarial_perturbations": [
+    {
+      "stage": 2,
+      "trigger": "Counterparty accepts redlines on C1 and C2, but quietly slips a 'Most Favored Nation + Right of First Refusal on Equity/Assets' into the Definitions section.",
+      "hidden_trap_id": "DEF_ROFR_BACKDOOR"
+    },
+    {
+      "stage": 3,
+      "trigger": "Mid-contract shock: Counterparty announces a 40% 'regulatory compliance surcharge' citing a new non-binding agency guidance memo.",
+      "hidden_trap_id": "PASS_THROUGH_FEE_EXPLOIT"
+    }
+  ]
+}
